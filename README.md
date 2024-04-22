@@ -217,7 +217,38 @@ sudo systemctl restart apache2
 ![SlaveLandingPage](./SlaveLandingpage.png)
 
 
-23. Setting Uptime in the Ansible Playbook and a copy of the ansible playbook; 
+23. Setting Uptime in the Ansible Playbook and a copy of the ansible playbook;
+    ```
+    ---
+- name: deploy lamp stack
+  hosts: all
+  become: true
+  tasks:
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: /home/vagrant/LAMP.sh
+        dest: /home/vagrant/LAMP.sh
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: install lamp stack and laravel
+      script: /home/vagrant/LAMP.sh
+
+
+    - name: Create Server Uptime Log file
+      file:
+        path: /var/log/server_uptime.log
+        state: touch
+
+    - name: Add Cronjob to check server uptime
+      cron:
+        name: "Check Server Uptime"
+        minute: 0
+        hour: 0
+        job: "uptime >> /var/log/server_uptime.log"
+
+    ``` 
 
 
 
