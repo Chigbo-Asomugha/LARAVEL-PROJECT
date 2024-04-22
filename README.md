@@ -218,7 +218,7 @@ sudo systemctl restart apache2
 
 
 23. Setting Uptime in the Ansible Playbook and a copy of the ansible playbook;
-    ```
+```
     ---
 - name: deploy lamp stack
   hosts: all
